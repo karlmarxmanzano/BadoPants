@@ -11,11 +11,6 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
-     * Custom Primary key.
-     */
-    protected $primaryKey = 'user_id';
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array

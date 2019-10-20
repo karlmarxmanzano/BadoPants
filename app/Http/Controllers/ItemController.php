@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Item;
 use App\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('category.index', compact('categories'));
+        $items = Item::all();
+        return view('item.index', compact('items'));
     }
 
     /**
@@ -25,7 +26,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        $categories = Category::all();
+        return view('item.create', compact('categories'));
     }
 
     /**
@@ -36,64 +38,69 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = Category::create($this->validateRequest());
+        $item = Item::create($this->validateRequest());
 
-        return redirect()->route('category.index');
+        $item->categories()->attach($request->categories);
+
+        return redirect()->route('item.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Item $item)
     {
-        return view('category.show', compact('category'));
+        return view('item.show', compact('item'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Item $item)
     {
-        return view('category.edit', compact('category'));
+        return view('item.edit', compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Item $item)
     {
-        $category->update($this->validateRequest());
+        $item->update($this->validateRequest());
 
-        return redirect()->route('category.index');
+        return redirect()->route('item.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Item $item)
     {
-        $category->delete();
+        $item->categories()->detach();
+        $item->delete($item);
 
-        return redirect()->route('category.index');
+        return redirect()->route('item.index');
     }
 
     public function validateRequest()
     {
         return request()->validate([
-            'category_name' => 'required|unique:categories|max:32'
+            'item_name' => 'required|max:32',
+            'item_description' => 'required',
+            'cost' => 'required'
         ]);
     }
 }

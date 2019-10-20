@@ -4,11 +4,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Add Category</div>
+                <div class="card-header">Edit Category</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('category.store') }}">    
+                    <form method="POST" action="{{ route('category.update', $category) }}">    
                         @csrf
-                        @method('POST')
+                        @method('PATCH')
                         @include('category.form')
                     </form>
                 </div>

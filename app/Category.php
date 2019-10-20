@@ -4,15 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Item;
+
 class Category extends Model
 {
-    /**
-     * Custom Primary Key for Category Table
-     */
-    protected $primaryKey = 'category_id';
 
     /**
      * For mass assignment
      */
     protected $fillable = ['category_name'];
+
+    public function items()
+    {
+    	return $this->belongsToMany(Item::class)->withTimestamps();
+    }
 }

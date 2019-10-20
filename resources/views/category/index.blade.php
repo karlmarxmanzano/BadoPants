@@ -5,7 +5,7 @@
 		<div class="col-md-12">
         	<div class="card">
             	<div class="card-header">
-            		Categories <a class="btn btn-primary" href="{{ route('categories.create') }}">Add New Category</a>
+            		Categories <a class="btn btn-primary" href="{{ route('category.create') }}">Add New Category</a>
             	</div>
 
             	<div class="card-body">
@@ -19,9 +19,15 @@
 								<tr> 
 									<td>{{ $category->category_name }}</td>
 									<td>
-										<a class="btn btn-info" href="{{ route('categories.show', ['category' => $category]) }}">View</a>
-										<a class="btn btn-warning" href="{{ route('categories.show', ['category' => $category]) }}">Edit</a>
-										<a class="btn btn-danger" href="">Delete</a>
+										<a class="btn btn-info" href="{{ route('category.show', ['category' => $category]) }}">View</a>
+										<a class="btn btn-warning" href="{{ route('category.edit', ['category' => $category]) }}">Edit</a>
+										<a class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">
+                                        	Delete
+                                    	</a>
+	                                    <form id="delete-form" action="{{ route('category.destroy', $category) }}" method="POST" style="display: none;">
+	                                        @csrf
+	                                        @method('DELETE')
+	                                    </form>
 									</td>
 								</tr>
 							@endforeach

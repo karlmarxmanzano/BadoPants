@@ -4,18 +4,19 @@
 <div class="row">
 		<div class="col-md-12">
         	<div class="card">
-            	<div class="card-header">Categories</a></div>
+            	<div class="card-header">Items</a></div>
 
             	<div class="card-body">
-					<h1>{{ $category->category_name }}</h1>
+					<h1>{{ $item->item_name }}</h1>
+					<p>{{ $item->item_description }}</p>
 				</div>
 
 				<div class="card-footer">
-					<a class="btn btn-warning" href="{{ route('category.edit', ['category' => $category]) }}">Edit</a>
+					<a class="btn btn-warning" href="{{ route('item.edit', ['item' => $item]) }}">Edit</a>
 					<a class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">
                     	Delete
                 	</a>
-                    <form id="delete-form" action="{{ route('category.destroy', $category) }}" method="POST" style="display: none;">
+                    <form id="delete-form" action="{{ route('item.destroy', $item) }}" method="POST" style="display: none;">
                         @csrf
                         @method('DELETE')
                     </form>
