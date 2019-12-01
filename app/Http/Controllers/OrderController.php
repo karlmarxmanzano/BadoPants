@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Item;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -25,7 +26,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('order.create');
     }
 
     /**
@@ -36,7 +37,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$oder = Order::create(compact('request'));
     }
 
     /**
@@ -45,9 +46,9 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Item $item)
     {
-        return view('order.show', $order);
+        return view('order.show', compact($item));
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Category;
-use App|Order;
+use App\Order;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model

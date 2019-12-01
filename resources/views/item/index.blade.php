@@ -14,22 +14,28 @@
 						<thead>
 							<th>Item Name</th>
 							<th>Item Description</th>
-							<th>Cost</th>
 							<th>Categories</th>
+							<th>Cost</th>
+							<th>Quantity</th>
 							<th>Action</th>
+							<th>Order</th>
 						</thead>
 						<tbody>
 							@foreach($items as $item)
 								<tr> 
 									<td>{{ $item->item_name }}</td>
 									<td>{{ $item->item_description }}</td>
-									<td>{{ $item->cost }}</td>
 									<td>
 										@foreach($item->categories as $category)
 											{{ $category->category_name }}
 										@endforeach
 									</td>
-
+									<td>{{ $item->cost }}</td>
+									<td>
+										<form id="order-form" action="{{ route('order.store') }}" class="form-inline">
+											<input type="number" class="form-control w-50" name="quantity" placeholder="0" min="0">
+										</form>
+									</td>
 									<td>
 										<a class="btn btn-info" href="{{ route('item.show', ['item' => $item]) }}">View</a>
 										<a class="btn btn-warning" href="{{ route('item.edit', ['item' => $item]) }}">Edit</a>
@@ -40,6 +46,9 @@
 	                                        @csrf
 	                                        @method('DELETE')
 	                                    </form>
+									</td>
+									<td>
+										<a class="btn btn-info" href="{{ route('order.show', ['item' => $item]) }}">Order Me</a>
 									</td>
 								</tr>
 							@endforeach
