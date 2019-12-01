@@ -53,6 +53,8 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+       
+
         return view('item.show', compact('item'));
     }
 
@@ -64,7 +66,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('item.edit', compact('item'));
+        $categories = Category::all();
+        return view('item.edit', compact(['item', 'categories']));
     }
 
     /**
@@ -78,7 +81,9 @@ class ItemController extends Controller
     {
         $item->update($this->validateRequest());
 
-        return redirect()->route('item.index');
+        $item->categories()->attach($request->categories);
+
+        return redirect()->back();
     }
 
     /**

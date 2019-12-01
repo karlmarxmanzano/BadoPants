@@ -18,7 +18,7 @@
 							<th>Cost</th>
 							<th>Quantity</th>
 							<th>Action</th>
-							<th>Order</th>
+							<th>Add to Card / Order</th>
 						</thead>
 						<tbody>
 							@foreach($items as $item)
@@ -32,9 +32,11 @@
 									</td>
 									<td>{{ $item->cost }}</td>
 									<td>
-										<form id="order-form" action="{{ route('order.store') }}" class="form-inline">
-											<input type="number" class="form-control w-50" name="quantity" placeholder="0" min="0">
-										</form>
+										<form id="order-form" class="form-inline" action="{{ route('order.store', ['item' => $item->id]) }}" method="POST">
+	                                        @csrf
+	                                        @method('POST')
+	                                        <input type="number" class="form-control" name="quantity" placeholder="0">
+	                                    </form>
 									</td>
 									<td>
 										<a class="btn btn-info" href="{{ route('item.show', ['item' => $item]) }}">View</a>
@@ -48,7 +50,7 @@
 	                                    </form>
 									</td>
 									<td>
-										<a class="btn btn-info" href="{{ route('order.show', ['item' => $item]) }}">Order Me</a>
+										<a class="btn btn-info" href="" onclick="event.preventDefault(); document.getElementById('order-form').submit();">Place order</a>
 									</td>
 								</tr>
 							@endforeach

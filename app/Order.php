@@ -9,8 +9,8 @@ class Order extends Model
 {
 	protected $fillable = ['cost', 'quantity', 'total_cost'];
 
-    public function items()
-    {
-    	return $this->hasMany(Item::class);
-    }
+    // public function items()
+    // {
+    // 	return $this->belongsToMany(Item::class);
+    // }
 }

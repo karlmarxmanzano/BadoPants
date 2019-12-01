@@ -23,4 +23,8 @@ Route::resource('item', 'ItemController');
 
 Route::resource('category', 'CategoryController');
 
-Route::resource('order', 'OrderController');
+Route::resource('order', 'OrderController')->except(['store']);
+Route::post('order/{item}', 'OrderController@store')->name('order.store');
+
+Route::resource('cart', 'CartController')->except(['store']);
+Route::post('cart/{item}', 'CartController@store')->name('cart.store');

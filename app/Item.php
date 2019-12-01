@@ -4,6 +4,7 @@ namespace App;
 
 use App\Category;
 use App\Order;
+use App\Cart;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
@@ -15,8 +16,13 @@ class Item extends Model
     	return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
-    public function orders()
+    public function carts()
 	{
-		return $this->belongsTo(Order::class);
+        return $this->hasMany(Cart::class);
 	}
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
