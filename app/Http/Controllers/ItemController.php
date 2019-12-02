@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use App\Category;
+use App\Repositories\Items\ItemRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
+
+    protected $itemRepository;
+
+    public function __construct(ItemRepositoryInterface $itemRepository)
+    {
+        $this->itemRepository = $itemRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +24,10 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::all();
-        return view('item.index', compact('items'));
+        // $items = Item::all();
+        $items = $this->itemRepository->getAll();
+        
+        return view('items.index', compact('items'));
     }
 
     /**
@@ -27,7 +38,7 @@ class ItemController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('item.create', compact('categories'));
+        return view('items.create', compact('categories'));
     }
 
     /**
@@ -42,7 +53,7 @@ class ItemController extends Controller
 
         $item->categories()->attach($request->categories);
 
-        return redirect()->route('item.index');
+        return redirect()->route('items.index');
     }
 
     /**
@@ -53,9 +64,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-       
-
-        return view('item.show', compact('item'));
+        return view('items.show', compact('item'));
     }
 
     /**
@@ -67,7 +76,7 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         $categories = Category::all();
-        return view('item.edit', compact(['item', 'categories']));
+        return view('items.edit', compact(['item', 'categories']));
     }
 
     /**
@@ -97,7 +106,7 @@ class ItemController extends Controller
         $item->categories()->detach();
         $item->delete($item);
 
-        return redirect()->route('item.index');
+        return redirect()->route('items.index');
     }
 
     public function validateRequest()

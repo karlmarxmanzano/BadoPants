@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use App\Repositories\Categories\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
+
+    protected $categoryRepository;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +23,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('category.index', compact('categories'));
+        // $categories = Category::all();
+        $categories = $this->categoryRepository->getAll();
+        
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -25,7 +36,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        return view('categories.create');
     }
 
     /**
@@ -38,7 +49,7 @@ class CategoryController extends Controller
     {
         $category = Category::create($this->validateRequest());
 
-        return redirect()->route('category.index');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -49,7 +60,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('category.show', compact('category'));
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -60,7 +71,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('category.edit', compact('category'));
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -74,7 +85,7 @@ class CategoryController extends Controller
     {
         $category->update($this->validateRequest());
 
-        return redirect()->route('category.index');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -87,7 +98,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('category.index');
+        return redirect()->route('categories.index');
     }
 
     public function validateRequest()

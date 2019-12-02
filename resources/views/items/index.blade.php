@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="pb-4">
-				<a class="btn btn-primary" href="{{ route('item.create') }}">Add New Item</a>
+				<a class="btn btn-primary" href="{{ route('items.create') }}">Add New Item</a>
 			</div>
         	<div class="card">
             	<div class="card-header">Item</div>
@@ -32,19 +32,19 @@
 									</td>
 									<td>{{ $item->cost }}</td>
 									<td>
-										<form id="order-form" class="form-inline" action="{{ route('order.store', ['item' => $item->id]) }}" method="POST">
+										<form id="order-form" class="form-inline" action="{{ route('items.orders.store', ['item' => $item]) }}" method="POST">
 	                                        @csrf
 	                                        @method('POST')
 	                                        <input type="number" class="form-control" name="quantity" placeholder="0">
 	                                    </form>
 									</td>
 									<td>
-										<a class="btn btn-info" href="{{ route('item.show', ['item' => $item]) }}">View</a>
-										<a class="btn btn-warning" href="{{ route('item.edit', ['item' => $item]) }}">Edit</a>
+										<a class="btn btn-info" href="{{ route('items.show', ['item' => $item]) }}">View</a>
+										<a class="btn btn-warning" href="{{ route('items.edit', ['item' => $item]) }}">Edit</a>
 										<a class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">
                                         	Delete
                                     	</a>
-	                                    <form id="delete-form" action="{{ route('item.destroy', ['item' => $item]) }}" method="POST" style="display: none;">
+	                                    <form id="delete-form" action="{{ route('items.destroy', ['item' => $item]) }}" method="POST" style="display: none;">
 	                                        @csrf
 	                                        @method('DELETE')
 	                                    </form>

@@ -19,12 +19,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('item', 'ItemController');
+Route::resource('items', 'ItemController');
 
-Route::resource('category', 'CategoryController');
+Route::resource('categories', 'CategoryController');
 
-Route::resource('order', 'OrderController')->except(['store']);
-Route::post('order/{item}', 'OrderController@store')->name('order.store');
+Route::resource('orders', 'OrderController');
+Route::resource('items.orders', 'ItemOrderController');
 
-Route::resource('cart', 'CartController')->except(['store']);
-Route::post('cart/{item}', 'CartController@store')->name('cart.store');
+// Route::resource('carts', 'CartController');
+
+Route::resource('stores', 'StoreController');

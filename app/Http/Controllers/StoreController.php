@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use App\Item;
+use App\Store;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreOrderRequest;
+use App\Repositories\Stores\StoreRepositoryInterface;
 
-class OrderController extends Controller
+class StoreController extends Controller
 {
+    protected $storeRepository;
+
+    public function __construct(StoreRepositoryInterface $storeRepository)
+    {
+        $this->storeRepository = $storeRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +22,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
-        return view('orders.index', compact('orders'));
+        $stores = $this->storeRepository->getAll();
+
+        return view('stores.index', compact('stores'));
     }
 
     /**
@@ -25,9 +32,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Item $item)
+    public function create()
     {
-        return view('orders.create', compact('item'));
+        //
     }
 
     /**
@@ -38,39 +45,47 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        // dd($request);
+        $this->storeRepository->store([
+            'name' => $request->store_name,
+            'address' => $request->store_address,
+            'user_id' => auth()->id()
+        ]);
+
+        return redirect()->route('stores.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Store $store)
     {
-        return view('orders.show', compact('order'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Store $store)
     {
-        return view('orders.edit', $order);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Store $store)
     {
         //
     }
@@ -78,13 +93,11 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(Store $store)
     {
-        $order->delete();
-
-        return redirect()->route('orders.index');
+        //
     }
 }
